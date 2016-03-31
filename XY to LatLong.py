@@ -182,6 +182,7 @@ sr.SetWellKnownGeogCS('WGS84')   # setting the coordinate system (WSG84 with no 
 
 # add gcps using the  georeferenced master image - global coord paired to source points
 # needs automation of GCP values input
+
 gcps = [
 gdal.GCP(125.535 ,  8.95834, 0 ,175.19830322 , 112.04946899),
 gdal.GCP(125.589 ,8.96914, 0, 333.76828003,   80.90518951 ), 
