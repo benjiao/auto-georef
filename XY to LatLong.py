@@ -12,8 +12,8 @@ import time
 start_time = time.time()
 
 # keypoint extraction stage
-img1_path = 'H:\_uSAT\Qgis Exercise\Day 2 Exercise 1 Data (copy)\Landsat8_Butuan.jpg'
-img2_path = 'H:\_uSAT\Fully Georef (GCP)\Butuan.Slave.jpg'
+img1_path = 'images/Butuan.Master.jpg'
+img2_path = 'images/Butuan.Slave.02.jpg'
 
 img1 = cv2.imread(img1_path, cv2.CV_LOAD_IMAGE_GRAYSCALE)
 img2 = cv2.imread(img2_path, cv2.CV_LOAD_IMAGE_GRAYSCALE)
@@ -68,59 +68,59 @@ cols2 = img2.shape[1]
     # draw circles, then connect a line between them
 for mat in sel_matches:
 
-        # Get the matching keypoints for each of the images
-        img1_idx = mat.queryIdx
-        img2_idx = mat.trainIdx
+    # Get the matching keypoints for each of the images
+    img1_idx = mat.queryIdx
+    img2_idx = mat.trainIdx
 
-        # x - columns
-        # y - rows
-        (x1,y1) = k1[img1_idx].pt
-        (x2,y2) = k2[img2_idx].pt
+    # x - columns
+    # y - rows
+    (x1,y1) = k1[img1_idx].pt
+    (x2,y2) = k2[img2_idx].pt
 
-        # Draw a small circle at both co-ordinates
-        # radius 4
-        # colour blue
-        # thickness = 1s
-        cv2.circle(view, (int(x1),int(y1)), 1, (255, 0, 0), 2)   
-        cv2.circle(view, (int(x2)+cols1,int(y2)), 1, (255, 0, 0), 2)
-		#allow values of src_pts and dst_pts to take values from 1-->10 for annotation
-		#s = np.range((int(k1[m.queryIdx].pt[0]), int(k1[m.queryIdx].pt[1]))
-        #cv2.putText(view, '1', src_pts[0,:], cv2.FONT_HERSHEY_SIMPLEX,1,2)	
-	
+    # Draw a small circle at both co-ordinates
+    # radius 4
+    # colour blue
+    # thickness = 1s
+    cv2.circle(view, (int(x1),int(y1)), 1, (255, 0, 0), 2)   
+    cv2.circle(view, (int(x2)+cols1,int(y2)), 1, (255, 0, 0), 2)
+    #allow values of src_pts and dst_pts to take values from 1-->10 for annotation
+    #s = np.range((int(k1[m.queryIdx].pt[0]), int(k1[m.queryIdx].pt[1]))
+    #cv2.putText(view, '1', src_pts[0,:], cv2.FONT_HERSHEY_SIMPLEX,1,2) 
 
-	#annotate points for source image
-	N = len(sel_matches)
-	source = np.array(src_pts)
-	dest = np.array(dst_pts)
-	source.shape = (N,2)
-	dest.shape = (N,2)
-	
-	labels = ['{0}'.format(i) for i in range(N)]
-	'''
-	for label, x, y in zip(labels, s[:, 0], s[:, 1]):
-		cv2.putText(view,label, (x,y),cv2.FONT_HERSHEY_TRIPLEX, 0.5, (1,0,0)) #Draw the text
-	for label, x, y in zip(labels, (d[:, 0] +cols1), d[:, 1]):
-		cv2.putText(view,label, (x,y),cv2.FONT_HERSHEY_TRIPLEX, 0.5, (1,0,0)) #Draw the text
-	'''	
-	
 
-	#showing image using plt:
-	plt.subplots_adjust(bottom = 0)
-	for label, x, y in zip(labels, source[:, 0], source[:, 1]):
-		plt.annotate( 
-			label, 
-			xy = (x, y), xytext = (-10, 10),
-			textcoords = 'offset points', ha = 'right', va = 'bottom',
-			bbox = dict(boxstyle = 'round4,pad=0.5', fc = 'cyan', alpha = 0.5),
-			arrowprops = dict(arrowstyle = '->', connectionstyle = 'arc3,rad=0'))
-	plt.subplots_adjust(bottom = 0)
-	for label, x, y in zip(labels, (dest[:, 0] +cols1), dest[:, 1]):
-		plt.annotate(
-			label, 
-			xy = (x, y), xytext = (-10, 10),
-			textcoords = 'offset points', ha = 'right', va = 'bottom',
-			bbox = dict(boxstyle = 'round4,pad=0.5', fc = 'cyan', alpha = 0.5),
-			arrowprops = dict(arrowstyle = '->', connectionstyle = 'arc3,rad=0'))	
+    #annotate points for source image
+    N = len(sel_matches)
+    source = np.array(src_pts)
+    dest = np.array(dst_pts)
+    source.shape = (N,2)
+    dest.shape = (N,2)
+    
+    labels = ['{0}'.format(i) for i in range(N)]
+    '''
+    for label, x, y in zip(labels, s[:, 0], s[:, 1]):
+        cv2.putText(view,label, (x,y),cv2.FONT_HERSHEY_TRIPLEX, 0.5, (1,0,0)) #Draw the text
+    for label, x, y in zip(labels, (d[:, 0] +cols1), d[:, 1]):
+        cv2.putText(view,label, (x,y),cv2.FONT_HERSHEY_TRIPLEX, 0.5, (1,0,0)) #Draw the text
+    ''' 
+    
+
+    #showing image using plt:
+    plt.subplots_adjust(bottom = 0)
+    for label, x, y in zip(labels, source[:, 0], source[:, 1]):
+        plt.annotate( 
+            label, 
+            xy = (x, y), xytext = (-10, 10),
+            textcoords = 'offset points', ha = 'right', va = 'bottom',
+            bbox = dict(boxstyle = 'round4,pad=0.5', fc = 'cyan', alpha = 0.5),
+            arrowprops = dict(arrowstyle = '->', connectionstyle = 'arc3,rad=0'))
+    plt.subplots_adjust(bottom = 0)
+    for label, x, y in zip(labels, (dest[:, 0] +cols1), dest[:, 1]):
+        plt.annotate(
+            label, 
+            xy = (x, y), xytext = (-10, 10),
+            textcoords = 'offset points', ha = 'right', va = 'bottom',
+            bbox = dict(boxstyle = 'round4,pad=0.5', fc = 'cyan', alpha = 0.5),
+            arrowprops = dict(arrowstyle = '->', connectionstyle = 'arc3,rad=0'))   
               #cv2.line(view, (int(x1),int(y1)), (int(x2)+cols1,int(y2)), (255, 0, 0), 1)
 
 
@@ -162,15 +162,15 @@ headers4 =  ["RMSE per GCP"]
 print tab(final_coord, headers,numalign="right")
 
 # Converting slave image in jpg to tif
-img = Image.open('H:\_uSAT\Fully Georef (GCP)\Butuan.Slave.jpg')  # input
-img.save('H:\Butuan.Slave.tiff')         # output
+img = Image.open('images/Butuan.Slave.02.jpg')  # input
+img.save('images/temp/Butuan.Slave.02.tiff')         # output
 
 # slave image is not yet georeferenced
 # its raw coordinates maybe checked using the GDAL affine coefficients
 
-img2_tif = r'H:\Butuan.Slave.tiff'
-slave_tif = gdal.Open (img2_tif)
-c2, a2 , b2, f2,d2 ,e2 = slave_tif.GetGeoTransform()
+img2_tif = 'images/temp/Butuan.Slave.02.tiff'
+slave_tif = gdal.Open(img2_tif)
+c2, a2 , b2, f2, d2, e2 = slave_tif.GetGeoTransform()
 
 print  c2, a2 , b2, f2,d2 ,e2 
 # will show 0.0 1.0 0.0 0.0 0.0 1.0, still in pixel coord (offset)
@@ -206,8 +206,8 @@ print gcps
 print slave_update
 # source_raw is already updated, and so are the geotransform coefficients
 # unravel GDAL affine transform parameters
-slave_georef = gdal.Open(r'H:\Butuan.Slave.tiff')
-c3, a3 , b3, f3,d3 ,e3 = slave_georef.GetGeoTransform()
+slave_georef = gdal.Open('images/temp/Butuan.Slave.02.tiff')
+c3, a3 , b3, f3, d3,e3 = slave_georef.GetGeoTransform()
 
 # must be updated!
 print c3, a3 , b3, f3,d3 ,e3
@@ -238,7 +238,6 @@ print tab(rpg)
 gcp = np.arange(0, N, 1)
 
 plt.plot(gcp,rmse_per_gcp, 'g--')
-plt.axis([0, 13, 0.0, 0.015])
 plt.ylabel ("RMSE")
 plt.xlabel ("GCP No.")
 plt.title("RMSE per GCP (deg)")
