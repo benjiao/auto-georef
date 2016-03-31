@@ -40,7 +40,8 @@ thres_dist =(sum(dist) / len(dist)) * 0.63
 
 # keep only the reasonable matches
 sel_matches = [m for m in matches if m.distance < thres_dist]
-   #if enough matches are found, extract locations of matched keypoints
+
+#if enough matches are found, extract locations of matched keypoints
 src_pts = np.float32([ k1[m.queryIdx].pt for m in sel_matches ]).reshape(-1,1,2)
 dst_pts = np.float32([ k2[m.trainIdx].pt for m in sel_matches]).reshape(-1,1,2)
 
@@ -92,8 +93,8 @@ for mat in sel_matches:
     N = len(sel_matches)
     source = np.array(src_pts)
     dest = np.array(dst_pts)
-    source.shape = (N,2)
-    dest.shape = (N,2)
+    source.shape = (N, 2)
+    dest.shape = (N, 2)
     
     labels = ['{0}'.format(i) for i in range(N)]
     '''
@@ -114,7 +115,7 @@ for mat in sel_matches:
             bbox = dict(boxstyle = 'round4,pad=0.5', fc = 'cyan', alpha = 0.5),
             arrowprops = dict(arrowstyle = '->', connectionstyle = 'arc3,rad=0'))
     plt.subplots_adjust(bottom = 0)
-    for label, x, y in zip(labels, (dest[:, 0] +cols1), dest[:, 1]):
+    for label, x, y in zip(labels, (dest[:, 0] + cols1), dest[:, 1]):
         plt.annotate(
             label, 
             xy = (x, y), xytext = (-10, 10),
@@ -136,7 +137,7 @@ master_georef = gdal.Open (img1_path)
 # unravel GDAL affine transformation parameters
 # from the master image
 
-c1, a1 , b1, f1,d1 ,e1 = master_georef.GetGeoTransform()
+c1, a1 , b1, f1, d1 ,e1 = master_georef.GetGeoTransform()
 
 x_value = source[:,0]
 y_value = source[:,1]
@@ -177,7 +178,7 @@ print  c2, a2 , b2, f2,d2 ,e2
 
 # update the source raw tif global coordinates
 slave_update = gdal.Open (img2_tif, gdal.GA_Update)
-sr = osr.SpatialReference()     
+sr = osr.SpatialReference()
 sr.SetWellKnownGeogCS('WGS84')   # setting the coordinate system (WSG84 with no projection)
 
 # add gcps using the  georeferenced master image - global coord paired to source points
